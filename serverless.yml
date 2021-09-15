@@ -100,7 +100,15 @@ functions:
 #      variable2: value2
 
 # you can add CloudFormation resource templates here
-#resources:
+resources:
+  # S3
+  - ${file(resources/s3-bucket.yml)}
+  # CloudFront
+  - ${file(resources/cloudfront.yml)}
+  # CodeBuild
+  - ${file(resources/codebuild.yml)}
+  # CodePipeline
+  - ${file(resources/codepipeline.yml)}
 #  Resources:
 #    NewResource:
 #      Type: AWS::S3::Bucket
