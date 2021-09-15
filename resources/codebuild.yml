@@ -12,7 +12,7 @@ Resources:
         # Linux container with node installed
         ComputeType: BUILD_GENERAL1_SMALL
         Type: LINUX_CONTAINER
-        Image: "aws/codebuild/nodejs:8.11.0"
+        Image: "aws/codebuild/standard:5.0"
       Source:
         Type: CODEPIPELINE
         BuildSpec: !Sub |
@@ -21,7 +21,7 @@ Resources:
             pre_build:
               commands:
                 - echo Change directory...
-                - cd static-site
+                - cd app
                 - echo List directory files...
                 - ls
                 - echo Installing source NPM dependencies...
@@ -35,19 +35,13 @@ Resources:
             post_build:
               commands:
                 # copy the contents of /build to S3
-                - aws s3 cp --recursive --acl public-read ./build s3://serverless-react-dev-website-j86heslsb86y
-                # set the cache-control headers for service-worker.js to prevent
-                # browser caching
-                - >
-                  aws s3 cp --acl public-read 
-                  --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
-                  ./build/service-worker.js s3://serverless-react-dev-website-j86heslsb86y
+                - aws s3 cp --recursive --acl public-read ./build s3://serverless-react-dev-website-x9t3g93bppft
                 # set the cache-control headers for index.html to prevent
                 # browser caching
                 - >
                   aws s3 cp --acl public-read 
                   --cache-control="max-age=0, no-cache, no-store, must-revalidate" 
-                  ./build/index.html s3://serverless-react-dev-website-j86heslsb86y
+                  ./build/index.html s3://serverless-react-dev-website-x9t3g93bppft
           artifacts:
             files:
               - '**/*'
